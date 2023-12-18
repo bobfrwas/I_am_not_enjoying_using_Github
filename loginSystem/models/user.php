@@ -416,4 +416,28 @@ class User {
         echo 'No favourite posts found.';
      }
     }
+
+    function account_page() {
+        $this->connection = new mysqli('localhost', 'root', '', 'loginsystem');
+        $user_id = $this->id;
+
+        $sql = "SELECT * FROM user_login WHERE id = $user_id";
+        $result = $this->connection->query($sql);
+
+        while ($row = $result->fetch_assoc()) {
+            $username = $row["Name"];
+            $image = $row['file_path'];
+
+            echo "<div class='post'>";
+            echo "<div class='title'>";
+            echo $username;
+            echo "</div>";
+            echo "<img src=$image>";
+            echo "</div>";
+            echo "</div>";
+          
+        }
+    
+        
+    }
 }

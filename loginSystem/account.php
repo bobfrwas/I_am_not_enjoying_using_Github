@@ -1,25 +1,42 @@
-<?php 
-
-include_once 'models/db.php';
-include_once 'models/user.php';
-
+<!DOCTYPE html>
+<?php
 session_start();
 
+include "models/db.php";
+include "models/user.php";
+
+
+
 $logged_in = false;
-if (isset($_SESSION['user'])) {
-    $logged_in = true;
-    $user = unserialize($_SESSION['user']);
+if ( !isset($_SESSION['user'])) {
+    //
+    header('Location: http://localhost/loginSystem/sign_up.php');
+    //
 }
-//Because it is a 1 line comment like if you wanted to do that you could just go to the next line there is no need to do this on the same line.
+
+$logged_in = true;      
+
+
+$user = unserialize($_SESSION['user']);            
+
+
+$user->account_page(); 
+
 ?>
+<head>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.0.0/uicons-regular-straight/css/uicons-regular-straight.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.0.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
 
-<html>
-    <head>
-    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
-        <style>
+    <style>
 
+    img {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+    }
 
-.navbar {
+    .navbar {
   background-color: #333;
   overflow: hidden;
   text-align: center;
@@ -32,15 +49,20 @@ if (isset($_SESSION['user'])) {
   margin-right: auto;
 }
 
-/* Style the links inside the navigation bar */
 .navbar a {
-  
   display: inline-block;
   color: #f2f2f2;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  font-size: 17px;
+  font-size: 28px;
+}
+
+
+@media (max-width: 767px) {
+  .navbar a {
+    padding: 10px 30px;
+  }
 }
 
 /* Change the color of links on hover */
@@ -55,60 +77,25 @@ if (isset($_SESSION['user'])) {
   color: white;
 }
 
+a {
+    color: black;
+}
+.post {
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  background-color: lightgrey;
+}
 
-    .post {
-        padding: 10px;
-        background-color: white;
-        text-align: center;
-    }
-    .title {
-        background-color: white;
-        font-size: 2rem;
-        padding: 4px;
-    }
-    .content {
-        background-color: white;
-    }
-    .between_posts {
-        padding: 4rem;
-    }
     </style>
 
-    </head>
-
-    <body>
-<?php  if ($logged_in): ?>
-        <p>
-            <a href="post.php">Create a post</a>
-        </p>
-        <p>
-            <a href="log-out.php">Log out</a>
-            <i class="fi fi-rr-edit"></i>
-        </p>
-<?php  else: ?>
-    <p>
-        <a href="login.php">Log in</a>
-    </p>
-
-    <p>
-        <a href="sign_up.php">Sign up</a>
-    </p>
-
-<?php endif ?>
-<?php
-$user = new User(); 
 
 
-?>
 
-ID <?= $user->id ?>
-
-<div class="navbar">
-  <a href="index.html"><i class="fi fi-rr-home"></i></a>
-  <a href="#explore.php"><i class="fi fi-rr-search"></i></a>
-  <a href="post.php"><i class="fi fi-rr-edit"></i></a> 
-  <a href="#notifications.php"><i class="fi fi-rr-bell"></i></a>
-  <a href="account.php"><i class="fi fi-rr-user"></i></a>
-</div>
-    </body>
-</html>
